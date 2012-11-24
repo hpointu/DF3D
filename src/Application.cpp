@@ -1,10 +1,20 @@
 #include "Application.hpp"
+#include "InputListener.hpp"
 
 Application::Application()
 {
+	if(initApplication()) {
+		createScene();
+		initListeners();
+	}
 }
 
-bool Application::run()
+void Application::initListeners()
+{
+	mRoot->addFrameListener(new InputListener(mWindow, mCamera));
+}
+
+bool Application::initApplication()
 {
 	mRoot = new Ogre::Root();
 
@@ -41,6 +51,11 @@ bool Application::run()
 	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
+	return true;
+}
+
+void Application::createScene()
+{
 	// creating scene manager
 	mSceneMgr = mRoot->createSceneManager("DefaultSceneManager", "mainSceneManager");
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1,1,1));
@@ -62,8 +77,18 @@ bool Application::run()
 	Ogre::SceneNode *node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	node->attachObject(e);
 
-	// for now, using internal main loop
-	mRoot->startRendering();
+}
 
-	return true;
+void Application::run()
+{
+	while(true)
+	{
+		// update window
+		Ogre::WindowEventUtilities::messagePump();
+
+		if(mWindow->isClosed())
+			return;
+		if(!mRoot->renderOneFrame())
+			return;
+	}
 }

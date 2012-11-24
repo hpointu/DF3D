@@ -9,9 +9,16 @@ class Application
 public:
 	Application();
 
-	bool run();
+	void run();
+
+	bool initApplication();
+
+	void createScene();
+
+	void initListeners();
 
 private:
+
 	Ogre::Root *mRoot;
 
 	Ogre::RenderWindow *mWindow;
