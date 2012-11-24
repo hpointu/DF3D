@@ -65,10 +65,35 @@ bool InputListener::frameRenderingQueued(const Ogre::FrameEvent &evt)
 		return false;
 
 	mKeyboard->capture();
+	mMouse->capture();
 
 	if(mKeyboard->isKeyDown(OIS::KC_ESCAPE)) {
 		return false;
 	}
+
+	Ogre::Vector3 movement(0,0,0);
+	float speed = 100*evt.timeSinceLastFrame;
+
+	if(mKeyboard->isKeyDown(OIS::KC_Q))
+		movement.x -= speed;
+	if(mKeyboard->isKeyDown(OIS::KC_D))
+		movement.x += speed;
+	if(mKeyboard->isKeyDown(OIS::KC_Z))
+		movement.z -= speed;
+	if(mKeyboard->isKeyDown(OIS::KC_S))
+		movement.z += speed;
+
+
+	const OIS::MouseState &ms = mMouse->getMouseState();
+	float mouseSens = .3f;
+
+	Ogre::Degree rx(-ms.Y.rel*mouseSens);
+	Ogre::Degree ry(-ms.X.rel*mouseSens);
+
+	mCamera->yaw(ry);
+	mCamera->pitch(rx);
+	mCamera->moveRelative(movement);
+
 
 	return true;
 }
