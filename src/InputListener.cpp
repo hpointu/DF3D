@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-InputListener::InputListener(Ogre::RenderWindow *window, Ogre::Camera *camera) :
+InputListener::InputListener(Ogre::RenderWindow *window, Ogre::Camera *camera):
 	mWindow(window),
 	mCamera(camera)
 {
@@ -82,6 +82,10 @@ bool InputListener::frameRenderingQueued(const Ogre::FrameEvent &evt)
 		movement.z -= speed;
 	if(mKeyboard->isKeyDown(OIS::KC_S))
 		movement.z += speed;
+	if(mKeyboard->isKeyDown(OIS::KC_SPACE))
+		movement.y += speed;
+	if(mKeyboard->isKeyDown(OIS::KC_LSHIFT))
+		movement.y -= speed;
 
 
 	const OIS::MouseState &ms = mMouse->getMouseState();
@@ -93,7 +97,6 @@ bool InputListener::frameRenderingQueued(const Ogre::FrameEvent &evt)
 	mCamera->yaw(ry);
 	mCamera->pitch(rx);
 	mCamera->moveRelative(movement);
-
 
 	return true;
 }

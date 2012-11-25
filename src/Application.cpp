@@ -73,10 +73,16 @@ void Application::createScene()
 				);
 
 	// adding test mesh
-	Ogre::Entity *e = mSceneMgr->createEntity("testMesh", "penguin.mesh");
-	Ogre::SceneNode *node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	node->attachObject(e);
+//	Ogre::Entity *e = mSceneMgr->createEntity("testMesh", "Cube.mesh");
+//	Ogre::SceneNode *node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+//	node->attachObject(e);
 
+	// adding test light
+	Ogre::Light *l = mSceneMgr->createLight("light0");
+	l->setPosition(100, 300, 200);
+	l->setDiffuseColour(1,1,1);
+
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(.6, .6, .6));
 }
 
 void Application::run()
