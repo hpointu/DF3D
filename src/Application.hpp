@@ -2,9 +2,12 @@
 #define APPLICATION_HPP
 
 #include <Ogre.h>
+#include <OGRE/Terrain/OgreTerrain.h>
+#include <OGRE/Terrain/OgreTerrainGroup.h>
 
+#include <OGRE/ExampleApplication.h>
 
-class Application
+class Application //: public ExampleApplication
 {
 public:
 	Application();
@@ -17,6 +20,9 @@ public:
 
 	void initListeners();
 
+	void configureTerrainDefault(Ogre::Light *l);
+	void defineTerrain(long x, long y);
+	void initBlendMaps(Ogre::Terrain *t);
 private:
 
 	Ogre::Root *mRoot;
@@ -26,6 +32,10 @@ private:
 	Ogre::SceneManager *mSceneMgr;
 
 	Ogre::Camera *mCamera;
+
+	Ogre::TerrainGlobalOptions *mTerrainGlobals;
+	Ogre::TerrainGroup *mTerrainGroup;
+	bool mTerrainsImported;
 
 };
 

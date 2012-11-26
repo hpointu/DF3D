@@ -20,7 +20,7 @@ include_directories(${OGRE_INCLUDE_DIRS})
 include_directories(${OGRE_Terrain_INCLUDE_DIRS})
 include_directories(${OIS_INCLUDE_DIRS})
 
-set( mainLibs ${OGRE_LIBRARIES} ${OGRE_Terrain_LIBRAIRES} ${OIS_LIBRARIES} )
+set( mainLibs ${OGRE_LIBRARIES} ${OGRE_Terrain_LIBRARIES} ${OIS_LIBRARIES} )
 
 add_executable(Df3D ${SRCS})
 target_link_libraries(Df3D ${mainLibs})
