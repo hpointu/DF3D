@@ -89,7 +89,7 @@ bool InputListener::frameRenderingQueued(const Ogre::FrameEvent &evt)
 
 
 	const OIS::MouseState &ms = mMouse->getMouseState();
-	float mouseSens = .3f;
+	float mouseSens = .1f;
 
 	Ogre::Degree rx(-ms.Y.rel*mouseSens);
 	Ogre::Degree ry(-ms.X.rel*mouseSens);

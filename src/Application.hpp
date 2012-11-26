@@ -22,7 +22,7 @@ public:
 
 	void configureTerrainDefault(Ogre::Light *l);
 	void defineTerrain(long x, long y);
-	void initBlendMaps(Ogre::Terrain *t);
+	void initBlendMaps(Ogre::Terrain *terrain);
 private:
 
 	Ogre::Root *mRoot;
