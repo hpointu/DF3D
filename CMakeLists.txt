@@ -16,11 +16,16 @@ pkg_check_modules(OGRE OGRE REQUIRED)
 pkg_check_modules(OGRE_Terrain OGRE-Terrain REQUIRED)
 pkg_check_modules(OIS OIS REQUIRED)
 
+pkg_check_modules(CEGUI CEGUI REQUIRED)
+pkg_check_modules(CEGUI_OGRE CEGUI-OGRE REQUIRED)
+
 include_directories(${OGRE_INCLUDE_DIRS})
 include_directories(${OGRE_Terrain_INCLUDE_DIRS})
 include_directories(${OIS_INCLUDE_DIRS})
+include_directories(${CEGUI_INCLUDE_DIRS})
+include_directories(${CEGUI_OGRE_INCLUDE_DIRS})
 
-set( mainLibs ${OGRE_LIBRARIES} ${OGRE_Terrain_LIBRARIES} ${OIS_LIBRARIES} )
+set( mainLibs ${OGRE_LIBRARIES} ${OGRE_Terrain_LIBRARIES} ${OIS_LIBRARIES} ${CEGUI_LIBRARIES} ${CEGUI_OGRE_LIBRARIES} )
 
 add_executable(Df3D ${SRCS})
 target_link_libraries(Df3D ${mainLibs})
