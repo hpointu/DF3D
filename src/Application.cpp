@@ -96,6 +96,7 @@ void Application::createScene()
 
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(.2, .2, .2));
 
+	/*
 	// testing terrain
 	mTerrainGlobals = new Ogre::TerrainGlobalOptions();
 
@@ -123,6 +124,27 @@ void Application::createScene()
 	}
 
 	mTerrainGroup->freeTemporaryResources();
+	*/
+
+
+	// testing plane
+	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+	Ogre::MeshManager::getSingleton().createPlane("ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+											 plane, 200, 200, 10, 10, true, 1, 2, 2, Ogre::Vector3::UNIT_Z);
+
+	Ogre::Entity *groundEntity = mSceneMgr->createEntity("groundEntity", "ground");
+	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);
+
+	Ogre::Material *matPtr = static_cast<Ogre::Material *>(Ogre::MaterialManager::getSingleton().create("test_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, true).getPointer());
+	Ogre::Pass *pass = matPtr->getTechnique(0)->getPass(0);
+	Ogre::TextureUnitState *tex = pass->createTextureUnitState("terrain.png");
+
+	tex->setTextureFiltering(Ogre::TFO_ANISOTROPIC);
+	tex->setTextureAnisotropy(8);
+	matPtr->load(); // important !
+
+	groundEntity->setMaterialName("test_mat");
+
 }
 
 void Application::initBlendMaps(Terrain *terrain)
