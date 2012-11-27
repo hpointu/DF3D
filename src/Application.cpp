@@ -21,7 +21,7 @@ Application::Application()
 
 void Application::initListeners()
 {
-	mRoot->addFrameListener(new InputListener(mWindow, mCamera));
+	mRoot->addFrameListener(new InputListener(mWindow, mCamera, &mGroundPlane, mSceneMgr));
 }
 
 bool Application::initApplication()
@@ -66,13 +66,29 @@ bool Application::initApplication()
 
 void Application::createScene()
 {
+	// init CEGUI
+	mCeguiRenderer = &CEGUI::OgreRenderer::bootstrapSystem(*mWindow);
+
+	// chargement resources cegui
+	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
+	CEGUI::Font::setDefaultResourceGroup("Fonts");
+	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+
+	CEGUI::SchemeManager::getSingleton().create("OgreTray.scheme");
+	CEGUI::System::getSingleton().setDefaultMouseCursor("OgreTrayImages", "MouseArrow");
+	CEGUI::MouseCursor::getSingleton().setImage(CEGUI::System::getSingleton().getDefaultMouseCursor());
+
+//	CEGUI::System::getSingleton().getDe
+
 	// creating scene manager
 	mSceneMgr = mRoot->createSceneManager("DefaultSceneManager", "mainSceneManager");
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(1,1,1));
 
 	// adding camera & viewport
 	mCamera = mSceneMgr->createCamera("mainCamera");
-	mCamera->setPosition(0,0,100);
+	mCamera->setPosition(0,100,100);
 	mCamera->lookAt(0,0,0);
 	mCamera->setNearClipDistance(5);
 
@@ -128,12 +144,13 @@ void Application::createScene()
 
 
 	// testing plane
-	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+	mGroundPlane = Ogre::Plane(Ogre::Vector3::UNIT_Y, 0);
 	Ogre::MeshManager::getSingleton().createPlane("ground", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-											 plane, 200, 200, 10, 10, true, 1, 2, 2, Ogre::Vector3::UNIT_Z);
+																 mGroundPlane, 200, 200, 10, 10, true, 1, 2, 2, Ogre::Vector3::UNIT_Z);
 
 	Ogre::Entity *groundEntity = mSceneMgr->createEntity("groundEntity", "ground");
-	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);
+	Ogre::SceneNode *groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	groundNode->attachObject(groundEntity);
 
 	Ogre::Material *matPtr = static_cast<Ogre::Material *>(Ogre::MaterialManager::getSingleton().create("test_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, true).getPointer());
 	Ogre::Pass *pass = matPtr->getTechnique(0)->getPass(0);
@@ -144,6 +161,8 @@ void Application::createScene()
 	matPtr->load(); // important !
 
 	groundEntity->setMaterialName("test_mat");
+
+
 
 }
 

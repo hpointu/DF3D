@@ -7,6 +7,9 @@
 
 #include <OGRE/ExampleApplication.h>
 
+#include <CEGUI.h>
+#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
+
 class Application //: public ExampleApplication
 {
 public:
@@ -33,9 +36,14 @@ private:
 
 	Ogre::Camera *mCamera;
 
+	Ogre::Plane mGroundPlane;
+
 	Ogre::TerrainGlobalOptions *mTerrainGlobals;
 	Ogre::TerrainGroup *mTerrainGroup;
 	bool mTerrainsImported;
+
+	CEGUI::OgreRenderer *mCeguiRenderer;
+	CEGUI::System *mCeguiSystem;
 
 };
 
